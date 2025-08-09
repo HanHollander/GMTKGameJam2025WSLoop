@@ -6,3 +6,4 @@
 scale = Vector2(4, 4)
 script = ExtResource("1_8j3ji")
 Thumbnails = []
+ZoomInMult = 4.0

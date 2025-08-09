@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Camera="*res://scripts/Camera.cs"
 AssetManager="*res://scripts/AssetManager.cs"
+ZoomStack="*res://scripts/ZoomStack.cs"
 
 [dotnet]
 

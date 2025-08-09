@@ -10,9 +10,9 @@ public struct ZoomAndPanOperation
 
     public ZoomAndPanOperation(float targetZoom, Vector2 targetPosition1, float timeRemaining) : this()
     {
-        this.TargetZoom = targetZoom;
-        this.TargetPosition = targetPosition1;
-        this.TimeRemaining = timeRemaining;
+        TargetZoom = targetZoom;
+        TargetPosition = targetPosition1;
+        TimeRemaining = timeRemaining;
     }
 }
 
@@ -25,9 +25,9 @@ public partial class Camera : Camera2D
 	[Signal] public delegate void ZoomAndPanOperationDoneEventHandler();
 
 	[Export] public float ZoomSpeed { get; set; } = 1.05f;
-	[Export] public float ZoomMin { get; set; } = 0.05f;
+	[Export] public float ZoomMin { get; set; } = 0.07f;
 	[Export] public float ZoomMax { get; set; } = 0.25f;
-	[Export] public float ZoomInitial { get; set; } = 0.07f;
+	[Export] public float ZoomInitial { get; set; } = 0.085f;
 
 	public bool Active { get; set; } = true;
 	private bool _doZoomAndPanOperation = false;

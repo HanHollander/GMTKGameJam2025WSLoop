@@ -1,11 +1,18 @@
 using Godot;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
-public partial class Main : Node
+public partial class ZoomStack : Node
 {
+	public static ZoomStack Instance { get; private set; }
+
+	public Stack<Zoomable> ZoomableStack = new Stack<Zoomable>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Instance = this;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

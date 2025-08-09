@@ -22,10 +22,11 @@ fill_to = Vector2(0.5, 1)
 script = ExtResource("1_o5qli")
 
 [node name="Background" type="Sprite2D" parent="."]
+z_index = -2
 texture_repeat = 2
 texture = SubResource("GradientTexture2D_85g3d")
 region_enabled = true
-region_rect = Rect2(0, 0, 19000, 19000)
+region_rect = Rect2(0, 0, 40000, 40000)
 
 [node name="Gui" parent="." instance=ExtResource("4_tbgi4")]
 
@@ -35,6 +36,8 @@ Enabled = true
 
 [node name="Background" type="Sprite2D" parent="ZoomableA"]
 texture = ExtResource("4_tipki")
+
+[node name="ParentZoomable" type="Sprite2D" parent="ZoomableA/Background"]
 
 [node name="ThumbnailB" parent="ZoomableA" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
 z_index = 1
@@ -54,12 +57,22 @@ metadata/_edit_group_ = true
 [node name="Background" type="Sprite2D" parent="ZoomableA/ThumbnailC"]
 texture = ExtResource("7_85g3d")
 
+[node name="ThumbnailD" parent="ZoomableA" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
+position = Vector2(444.25, -232.75)
+LinkedZoomable = NodePath("../../ZoomableD")
+metadata/_edit_group_ = true
+
+[node name="Background" type="Sprite2D" parent="ZoomableA/ThumbnailD"]
+texture = ExtResource("8_choun")
+
 [node name="ZoomableB" parent="." node_paths=PackedStringArray("Thumbnails") instance=ExtResource("5_tefeu")]
 visible = false
 Thumbnails = [NodePath("ThumbnailA"), NodePath("ThumbnailC"), NodePath("ThumbnailD")]
 
 [node name="Background" type="Sprite2D" parent="ZoomableB"]
 texture = ExtResource("6_tipki")
+
+[node name="ParentZoomable" type="Sprite2D" parent="ZoomableB/Background"]
 
 [node name="ThumbnailA" parent="ZoomableB" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
 position = Vector2(-403, 393.75)
@@ -92,6 +105,8 @@ Thumbnails = [NodePath("ThumbnailA"), NodePath("ThumbnailB"), NodePath("Thumbnai
 [node name="Background" type="Sprite2D" parent="ZoomableC"]
 texture = ExtResource("7_85g3d")
 
+[node name="ParentZoomable" type="Sprite2D" parent="ZoomableC/Background"]
+
 [node name="ThumbnailA" parent="ZoomableC" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
 position = Vector2(351.5, -363.5)
 LinkedZoomable = NodePath("../../ZoomableA")
@@ -101,7 +116,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("4_tipki")
 
 [node name="ThumbnailB" parent="ZoomableC" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(351.5, -363.5)
+position = Vector2(320.5, 386.25)
 LinkedZoomable = NodePath("../../ZoomableB")
 metadata/_edit_group_ = true
 
@@ -109,7 +124,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("6_tipki")
 
 [node name="ThumbnailD" parent="ZoomableC" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(-290, 207.75)
+position = Vector2(-382.75, -140)
 LinkedZoomable = NodePath("../../ZoomableD")
 metadata/_edit_group_ = true
 
@@ -122,6 +137,8 @@ Thumbnails = [NodePath("ThumbnailB"), NodePath("ThumbnailC")]
 
 [node name="Background" type="Sprite2D" parent="ZoomableD"]
 texture = ExtResource("8_choun")
+
+[node name="ParentZoomable" type="Sprite2D" parent="ZoomableD/Background"]
 
 [node name="ThumbnailB" parent="ZoomableD" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
 position = Vector2(-724.25, 18)
