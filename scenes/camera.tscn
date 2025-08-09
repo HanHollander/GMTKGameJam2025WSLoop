@@ -1,11 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmxqpm8ye07nt"]
+[gd_scene load_steps=2 format=3 uid="uid://cmxqpm8ye07nt"]
 
 [ext_resource type="Script" uid="uid://lk5jl1056gip" path="res://scripts/Camera.cs" id="1_u5kg4"]
-[ext_resource type="Texture2D" uid="uid://5ovgj7ouy52d" path="res://textures/galaxy.tres" id="2_kod1s"]
 
 [node name="Camera" type="Camera2D"]
 scale = Vector2(0.005, 0.005)
 script = ExtResource("1_u5kg4")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_kod1s")

@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c373b7vbbmnj4"]
-
-[ext_resource type="Texture2D" uid="uid://5ovgj7ouy52d" path="res://textures/galaxy.tres" id="1_n7ltq"]
-
-[node name="Galaxy" type="Node2D"]
-
-[node name="Background" type="Sprite2D" parent="."]
-texture = ExtResource("1_n7ltq")

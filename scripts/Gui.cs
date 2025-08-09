@@ -12,11 +12,15 @@ public partial class Gui : Control
 	public override void _Process(double delta)
 	{
 		Label mousePosition = GetNode<CanvasLayer>("Debug").GetNode<Label>("MousePosition");
-		String mousePositionString = GetGlobalMousePosition().ToString() + " / " + GetLocalMousePosition().ToString();
+		String mousePositionString = GetGlobalMousePosition().ToString() + " / " + GetViewport().GetMousePosition().ToString();
 		mousePosition.Text = mousePositionString;
 
 		Label zoomLevel = GetNode<CanvasLayer>("Debug").GetNode<Label>("ZoomLevel");
 		String zoomLevelString = Camera.Instance.Zoom.ToString();
 		zoomLevel.Text = zoomLevelString;
+
+		Label cameraPosition = GetNode<CanvasLayer>("Debug").GetNode<Label>("CameraPosition");
+		String cameraPositionString = Camera.Instance.Position.ToString();
+		cameraPosition.Text = cameraPositionString;
 	}
 }

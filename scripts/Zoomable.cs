@@ -7,16 +7,18 @@ using System.Linq;
 public partial class Zoomable : Node2D
 {
 
-	[Export] public Node2D ZoomableInstance;
 	[Export] public Array<Thumbnail> Thumbnails;
 	[Export] public bool Enabled { get; set; } = false;
 
 	[Export] public float ZoomInTimeSeconds { get; set; } = 2.0f;
 	private Thumbnail _nearestThumbnail;
+	private bool _waitingForZoomAndPan;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if (!Enabled) Hide();
+
 		Camera.Instance.ZoomInOverLimit += OnCameraZoomInOverLimit;
 		Camera.Instance.ZoomOutOverLimit += OnCameraZoomOutOverLimit;
 		Camera.Instance.ZoomAndPanOperationDone += OnCameraZoomAndPanOperationDone;
@@ -36,8 +38,9 @@ public partial class Zoomable : Node2D
 		if (!Enabled) return;
 
 		_nearestThumbnail = FindNearestThumbnail();
+		_waitingForZoomAndPan = true;
 
-		Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomMax * 2.0f, _nearestThumbnail.Position, 2.0f);
+		Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomMax * 24.0f, _nearestThumbnail.GlobalPosition, 1.0f);
 	}
 
 	public void OnCameraZoomOutOverLimit()
@@ -49,9 +52,24 @@ public partial class Zoomable : Node2D
 
 	public void OnCameraZoomAndPanOperationDone()
 	{
-		if (!Enabled) return;
+		if (!_waitingForZoomAndPan) return;
 
-		GD.Print("zapod");
+		GD.Print("Hide ", ", ", Camera.Instance.Zoom, ", ", Scale, ", ", _nearestThumbnail.Scale);
+		Hide();
+		Enabled = false;
+
+		float targetZoom = Camera.Instance.Zoom.X * _nearestThumbnail.Scale.X;
+
+		GD.Print(targetZoom);
+
+		_nearestThumbnail.LinkedZoomable.Show();
+		_nearestThumbnail.LinkedZoomable.Enabled = true;
+
+		_waitingForZoomAndPan = false;
+
+		Camera.Instance.Position = new Vector2(0.0f, 0.0f);
+		Camera.Instance.Zoom = new Vector2(targetZoom, targetZoom);
+		Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomInitial, new Vector2(0.0f, 0.0f), 1.0f);
 	}
 
 	public void OnThumbnailSelect()
@@ -90,7 +108,9 @@ public partial class Zoomable : Node2D
 		float minDistance = float.MaxValue;
 		foreach (Thumbnail thumbnail in Thumbnails)
 		{
-			Vector2 distanceVector = Camera.Instance.Position - thumbnail.Position;
+			Vector2 distanceVector = Camera.Instance.Position - thumbnail.GlobalPosition;
+			GD.Print(Camera.Instance.Position, ", ", thumbnail.GlobalPosition);
+			GD.Print(distanceVector.Length(), ", ", minDistance);
 			if (distanceVector.Length() < minDistance)
 			{
 				result = thumbnail;

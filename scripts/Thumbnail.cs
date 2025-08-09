@@ -6,7 +6,6 @@ public partial class Thumbnail : Area2D
 
 	private bool selected = false;
 
-	[Export] public Node2D ThumbnailInstance;
 	[Export] public Zoomable LinkedZoomable;
 
 	[Signal]

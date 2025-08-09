@@ -3,5 +3,6 @@
 [ext_resource type="Script" uid="uid://bgg0qglh4ckpd" path="res://scripts/Zoomable.cs" id="1_8j3ji"]
 
 [node name="Zoomable" type="Node2D" node_paths=PackedStringArray("Thumbnails")]
+scale = Vector2(4, 4)
 script = ExtResource("1_8j3ji")
 Thumbnails = []

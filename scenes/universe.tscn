@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfmqxxs2vsqug"]
-
-[ext_resource type="Texture2D" uid="uid://tu2jvp1wcycu" path="res://textures/universe.tres" id="1_h4s8v"]
-
-[node name="Universe" type="Node2D"]
-
-[node name="Background" type="Sprite2D" parent="."]
-texture = ExtResource("1_h4s8v")

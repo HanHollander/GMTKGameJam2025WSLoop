@@ -23,3 +23,9 @@ offset_top = 23.0
 offset_right = 384.0
 offset_bottom = 46.0
 text = "ZoomLevel"
+
+[node name="CameraPosition" type="Label" parent="Debug"]
+offset_top = 48.0
+offset_right = 384.0
+offset_bottom = 71.0
+text = "CameraPosition"

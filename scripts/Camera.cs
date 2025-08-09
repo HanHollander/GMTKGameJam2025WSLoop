@@ -24,9 +24,10 @@ public partial class Camera : Camera2D
 	[Signal] public delegate void ZoomOutOverLimitEventHandler();
 	[Signal] public delegate void ZoomAndPanOperationDoneEventHandler();
 
-	[Export] public float ZoomSpeed { get; set; } = 1.2f;
-	[Export] public float ZoomMin { get; set; } = 0.1f;
-	[Export] public float ZoomMax { get; set; } = 2.0f;
+	[Export] public float ZoomSpeed { get; set; } = 1.05f;
+	[Export] public float ZoomMin { get; set; } = 0.05f;
+	[Export] public float ZoomMax { get; set; } = 0.25f;
+	[Export] public float ZoomInitial { get; set; } = 0.07f;
 
 	public bool Active { get; set; } = true;
 	private bool _doZoomAndPanOperation = false;
@@ -38,6 +39,7 @@ public partial class Camera : Camera2D
 	public override void _Ready()
 	{
 		Instance = this;
+		Zoom = new Vector2(ZoomInitial, ZoomInitial);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,6 +65,7 @@ public partial class Camera : Camera2D
 				Position = _zoomAndPanOperation.TargetPosition;
 				_doZoomAndPanOperation = false;
 				Active = true;
+				EmitSignal(SignalName.ZoomAndPanOperationDone);
 			}
 		}
 	}
