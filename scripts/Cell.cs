@@ -1,16 +1,11 @@
 using Godot;
 using System;
 
-public partial class Thumbnail : Area2D
+public partial class Cell : Area2D
 {
 
 	private bool selected = false;
-
-	[Export] public Node2D ThumbnailInstance;
-	[Export] public Zoomable LinkedZoomable;
-
-	[Signal]
-	public delegate void ThumbnailSelectedEventHandler();
+	private bool hovered = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -38,7 +33,21 @@ public partial class Thumbnail : Area2D
 			{
 				UpdateSelectionState(!selected);
 			}
+			else if (mouseEvent.Pressed && !hovered)
+			{
+				UpdateSelectionState(false);
+			}
 		}
+	}
+
+	public override void _MouseEnter()
+	{
+		hovered = true;
+	}
+
+	public override void _MouseExit()
+	{
+		hovered = false;
 	}
 
 
@@ -55,7 +64,6 @@ public partial class Thumbnail : Area2D
 		if (selected)
 		{
 			highlight.Show();
-			EmitSignal(SignalName.ThumbnailSelected);
 		}
 		else
 		{
@@ -63,8 +71,4 @@ public partial class Thumbnail : Area2D
 		}
 	}
 
-	public bool IsSelected()
-	{
-		return selected;
-	}
 }
