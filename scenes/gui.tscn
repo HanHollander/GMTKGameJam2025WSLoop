@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvbe1sk06wfeh"]
+
+[ext_resource type="Script" uid="uid://c8ludy664tnel" path="res://scripts/Gui.cs" id="1_efmwq"]
+
+[node name="Gui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_efmwq")
+
+[node name="Debug" type="CanvasLayer" parent="."]
+
+[node name="MousePosition" type="Label" parent="Debug"]
+offset_right = 384.0
+offset_bottom = 17.0
+text = "MousePosition"
+
+[node name="ZoomLevel" type="Label" parent="Debug"]
+offset_top = 23.0
+offset_right = 384.0
+offset_bottom = 46.0
+text = "ZoomLevel"

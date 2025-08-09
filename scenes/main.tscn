@@ -1,16 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwaakbxfq3ys3"]
+[gd_scene load_steps=7 format=3 uid="uid://bwaakbxfq3ys3"]
 
 [ext_resource type="Script" uid="uid://b8ytumrwxhnoh" path="res://scripts/Main.cs" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://8npvayu70bcr" path="res://scenes/background.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://bfmqxxs2vsqug" path="res://scenes/universe.tscn" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cmxqpm8ye07nt" path="res://scenes/camera.tscn" id="3_sugp2"]
-[ext_resource type="Texture2D" uid="uid://163siq85lfuk" path="res://icon.svg" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://bvbe1sk06wfeh" path="res://scenes/gui.tscn" id="4_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c373b7vbbmnj4" path="res://scenes/galaxy.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bvvk20q08id06" path="res://scenes/zoomable.tscn" id="5_tefeu"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 
-[node name="Background" parent="." instance=ExtResource("2_0wfyh")]
-
 [node name="Camera" parent="." instance=ExtResource("3_sugp2")]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_jyhfs")
+[node name="Gui" parent="." instance=ExtResource("4_tbgi4")]
+
+[node name="ZoomableUniverse" parent="." instance=ExtResource("5_tefeu")]
+
+[node name="Universe" parent="ZoomableUniverse" instance=ExtResource("2_jyhfs")]
+
+[node name="GalaxyThumb1" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
+position = Vector2(-2421, 432)
+scale = Vector2(0.05, 0.05)
+
+[node name="GalaxyThumb2" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
+position = Vector2(-1496, -922)
+scale = Vector2(0.05, 0.05)
+
+[node name="GalaxyThumb3" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
+position = Vector2(392, 1727)
+scale = Vector2(0.05, 0.05)
+
+[node name="GalaxyThumb4" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
+position = Vector2(2049, -1655)
+scale = Vector2(0.05, 0.05)
+
+[node name="ZoomableGalaxy" parent="." instance=ExtResource("5_tefeu")]
+
+[node name="Galaxy" parent="ZoomableGalaxy" instance=ExtResource("5_tbgi4")]
+visible = false
