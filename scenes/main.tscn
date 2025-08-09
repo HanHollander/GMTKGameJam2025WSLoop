@@ -38,3 +38,6 @@ scale = Vector2(0.05, 0.05)
 
 [node name="Galaxy" parent="ZoomableGalaxy" instance=ExtResource("5_tbgi4")]
 visible = false
+
+[connection signal="ZoomInOverLimit" from="Camera" to="ZoomableUniverse" method="OnCameraZoomInOverLimit"]
+[connection signal="ZoomOutOverLimit" from="Camera" to="ZoomableUniverse" method="OnCameraZoomOutOverLimit"]
