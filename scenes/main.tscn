@@ -57,14 +57,6 @@ metadata/_edit_group_ = true
 [node name="Background" type="Sprite2D" parent="ZoomableA/ThumbnailC"]
 texture = ExtResource("7_85g3d")
 
-[node name="ThumbnailD" parent="ZoomableA" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(444.25, -232.75)
-LinkedZoomable = NodePath("../../ZoomableD")
-metadata/_edit_group_ = true
-
-[node name="Background" type="Sprite2D" parent="ZoomableA/ThumbnailD"]
-texture = ExtResource("8_choun")
-
 [node name="ZoomableB" parent="." node_paths=PackedStringArray("Thumbnails") instance=ExtResource("5_tefeu")]
 visible = false
 Thumbnails = [NodePath("ThumbnailA"), NodePath("ThumbnailC"), NodePath("ThumbnailD")]

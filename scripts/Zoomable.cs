@@ -85,9 +85,6 @@ public partial class Zoomable : Node2D
 	{
 		if (!Enabled) return;
 
-		// Fade own modulate
-		// _fadeOperations.Add(new FadeSpriteOperation(ParentBackgroundAlpha, ZoomOutTime, GetNode<Sprite2D>("Background")));
-
 		// Fade parentZoomable to zero
 		_fadeOperations.Add(new FadeSpriteOperation(0.0f, ZoomInTime,
 		GetNode<Sprite2D>("Background").GetNode<Sprite2D>("ParentZoomable")));
@@ -102,10 +99,6 @@ public partial class Zoomable : Node2D
 	public void OnCameraZoomOutOverLimit()
 	{
 		if (!Enabled || ZoomStack.Instance.ZoomableStack.Count == 0) return;
-
-		// _fadeOperations.Add(new FadeSpriteOperation(1.0f, ZoomInTime,
-		// 	GetNode<Sprite2D>("Background").GetNode<Sprite2D>("ParentZoomable")));
-
 
 		_waitingForZoomAndPan = true;
 		_waitingForZoomOut = true;
@@ -149,7 +142,7 @@ public partial class Zoomable : Node2D
 			parentZoomableSprite.Position = -1.0f * _nearestThumbnail.Position * bgScale;
 
 			Color modulate = parentZoomableSprite.SelfModulate;
-			modulate.A = 1.0f; //ParentBackgroundAlpha;
+			modulate.A = 1.0f;
 			parentZoomableSprite.SelfModulate = modulate;
 		}
 
@@ -182,6 +175,7 @@ public partial class Zoomable : Node2D
 			Camera.Instance.Zoom = new Vector2(targetZoom, targetZoom);
 			Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomInitial, new Vector2(0.0f, 0.0f), ZoomOutTime);
 
+			// Update the parent Zoomable of our own parent Zoomable
 			Sprite2D parentZoomableSprite = parentZoomable.GetNode<Sprite2D>("Background").GetNode<Sprite2D>("ParentZoomable");
 			if (ZoomStack.Instance.ZoomableStack.Count == 0)
 			{
@@ -197,13 +191,12 @@ public partial class Zoomable : Node2D
 				parentZoomableSprite.Position = -1.0f * _nearestThumbnail.Position * bgScale;
 
 				// Fade parentZoomable to full
-				_fadeOperations.Add(new FadeSpriteOperation(1.0f, ZoomInTime, parentZoomableSprite));
+				Color modulate = parentZoomableSprite.SelfModulate;
+				modulate.A = 0.0f;
+				parentZoomableSprite.SelfModulate = modulate;
+				_fadeOperations.Add(new FadeSpriteOperation(1.0f, ZoomOutTime, parentZoomableSprite));
 
 			}
-
-			// Color modulate = parentZoomable.GetNode<Sprite2D>("Background").SelfModulate;
-			// modulate.A = 1.0f;
-			// parentZoomable.GetNode<Sprite2D>("Background").SelfModulate = modulate;
 		}
 	}
 
