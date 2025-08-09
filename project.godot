@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Camera="*res://scripts/Camera.cs"
+AssetManager="*res://scripts/AssetManager.cs"
 
 [dotnet]
 
