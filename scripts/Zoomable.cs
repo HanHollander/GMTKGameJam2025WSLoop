@@ -16,6 +16,10 @@ public partial class Zoomable : Node2D
 		// Connect(Camera.SignalName.ZoomInOverLimit, Callable.From(OnCameraZoomInOverLimit));
 		// Connect(Camera.SignalName.ZoomOutOverLimit, Callable.From(OnCameraZoomOutOverLimit));
 		Camera.Instance.ZoomInOverLimit += OnCameraZoomInOverLimit;
+		foreach (Thumbnail thumbnail in Thumbnails)
+		{
+			thumbnail.ThumbnailSelected += OnThumbnailSelect;
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,6 +36,36 @@ public partial class Zoomable : Node2D
 	public void OnCameraZoomOutOverLimit()
 	{
 		GD.Print("zool");
+	}
+
+	public void OnThumbnailSelect()
+	{
+		Thumbnail first = null;
+		Thumbnail second = null;
+
+		foreach (Thumbnail thumbnail in Thumbnails)
+		{
+			if (thumbnail.IsSelected())
+			{
+				if (first == null)
+				{
+					first = thumbnail;
+				}
+				else
+				{
+					second = thumbnail;
+					break;
+				}
+			}
+		}
+
+		if (second != null)
+		{
+			
+			first.UpdateSelectionState(false);
+			second.UpdateSelectionState(false);
+			GD.Print("CONNECT");
+		}
 	}
 
 	private Thumbnail FindNearestThumbnail()
