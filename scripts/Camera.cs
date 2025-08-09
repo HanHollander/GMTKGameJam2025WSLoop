@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 public partial class Camera : Camera2D
 {
+	public static Camera Instance { get; private set; }
+
 	[Signal] public delegate void ZoomInOverLimitEventHandler();
 	[Signal] public delegate void ZoomOutOverLimitEventHandler();
 
 	[Export] public float ZoomSpeed { get; set; } = 1.2f;
-	[Export] public float ZoomMin { get; set; } = 0.2f;
+	[Export] public float ZoomMin { get; set; } = 0.1f;
 	[Export] public float ZoomMax { get; set; } = 2.0f;
 
 	public bool IsPressed = false;
@@ -16,6 +18,7 @@ public partial class Camera : Camera2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Instance = this;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,13 +67,13 @@ public partial class Camera : Camera2D
 		}
 	}
 
-	private Vector2 GetNewZoom(float zoomFactor) {
+	public Vector2 GetNewZoom(float zoomFactor)
+	{
 		return Zoom * zoomFactor;
 	}
 
-	private void ZoomTo(Vector2 newZoom)
+	public void ZoomTo(Vector2 newZoom)
 	{
-	
 		Vector2 mousePosition = GetLocalMousePosition();
 		Zoom = newZoom;
 		Vector2 newMousePosition = GetLocalMousePosition();

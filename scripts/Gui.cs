@@ -16,7 +16,7 @@ public partial class Gui : Control
 		mousePosition.Text = mousePositionString;
 
 		Label zoomLevel = GetNode<CanvasLayer>("Debug").GetNode<Label>("ZoomLevel");
-		String zoomLevelString = GetNode<Camera2D>("../Camera").Zoom.ToString();
+		String zoomLevelString = Camera.Instance.Zoom.ToString();
 		zoomLevel.Text = zoomLevelString;
 	}
 }

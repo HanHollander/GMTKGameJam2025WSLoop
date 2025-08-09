@@ -2,42 +2,46 @@
 
 [ext_resource type="Script" uid="uid://b8ytumrwxhnoh" path="res://scripts/Main.cs" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bfmqxxs2vsqug" path="res://scenes/universe.tscn" id="2_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://cmxqpm8ye07nt" path="res://scenes/camera.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bvbe1sk06wfeh" path="res://scenes/gui.tscn" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c373b7vbbmnj4" path="res://scenes/galaxy.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bvvk20q08id06" path="res://scenes/zoomable.tscn" id="5_tefeu"]
+[ext_resource type="PackedScene" uid="uid://b5uoar63yn8bt" path="res://scenes/thumbnail.tscn" id="6_o6xl0"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 
-[node name="Camera" parent="." instance=ExtResource("3_sugp2")]
-
 [node name="Gui" parent="." instance=ExtResource("4_tbgi4")]
 
-[node name="ZoomableUniverse" parent="." instance=ExtResource("5_tefeu")]
+[node name="UniverseZoomable" parent="." node_paths=PackedStringArray("ZoomableInstance", "Thumbnails") instance=ExtResource("5_tefeu")]
+ZoomableInstance = NodePath("Universe")
+Thumbnails = [NodePath("GalaxyThumbnail1"), NodePath("GalaxyThumbnail2")]
 
-[node name="Universe" parent="ZoomableUniverse" instance=ExtResource("2_jyhfs")]
+[node name="Universe" parent="UniverseZoomable" instance=ExtResource("2_jyhfs")]
 
-[node name="GalaxyThumb1" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
-position = Vector2(-2421, 432)
-scale = Vector2(0.05, 0.05)
+[node name="GalaxyThumbnail1" parent="UniverseZoomable" node_paths=PackedStringArray("ThumbnailInstance") instance=ExtResource("6_o6xl0")]
+z_index = 1
+position = Vector2(-2456, -1263)
+ThumbnailInstance = NodePath("Galaxy")
+metadata/_edit_group_ = true
 
-[node name="GalaxyThumb2" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
-position = Vector2(-1496, -922)
-scale = Vector2(0.05, 0.05)
+[node name="Galaxy" parent="UniverseZoomable/GalaxyThumbnail1" instance=ExtResource("5_tbgi4")]
 
-[node name="GalaxyThumb3" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
-position = Vector2(392, 1727)
-scale = Vector2(0.05, 0.05)
+[node name="GalaxyThumbnail2" parent="UniverseZoomable" node_paths=PackedStringArray("ThumbnailInstance") instance=ExtResource("6_o6xl0")]
+z_index = 1
+position = Vector2(2454, 1705)
+ThumbnailInstance = NodePath("Galaxy")
+metadata/_edit_group_ = true
 
-[node name="GalaxyThumb4" parent="ZoomableUniverse/Universe" instance=ExtResource("5_tbgi4")]
-position = Vector2(2049, -1655)
-scale = Vector2(0.05, 0.05)
+[node name="Galaxy" parent="UniverseZoomable/GalaxyThumbnail2" instance=ExtResource("5_tbgi4")]
 
-[node name="ZoomableGalaxy" parent="." instance=ExtResource("5_tefeu")]
-
-[node name="Galaxy" parent="ZoomableGalaxy" instance=ExtResource("5_tbgi4")]
+[node name="GalaxyZoomable1" parent="." node_paths=PackedStringArray("ZoomableInstance", "Thumbnails") instance=ExtResource("5_tefeu")]
 visible = false
+ZoomableInstance = NodePath("Galaxy")
+Thumbnails = [NodePath("Galaxy/StarSystemThumbnail1")]
 
-[connection signal="ZoomInOverLimit" from="Camera" to="ZoomableUniverse" method="OnCameraZoomInOverLimit"]
-[connection signal="ZoomOutOverLimit" from="Camera" to="ZoomableUniverse" method="OnCameraZoomOutOverLimit"]
+[node name="Galaxy" parent="GalaxyZoomable1" instance=ExtResource("5_tbgi4")]
+
+[node name="StarSystemThumbnail1" parent="GalaxyZoomable1/Galaxy" instance=ExtResource("6_o6xl0")]
+
+[node name="Universe" parent="GalaxyZoomable1/Galaxy/StarSystemThumbnail1" instance=ExtResource("2_jyhfs")]
+position = Vector2(16440, 32420)
