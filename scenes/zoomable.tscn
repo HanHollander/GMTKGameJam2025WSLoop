@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvvk20q08id06"]
+
+[ext_resource type="Script" uid="uid://bgg0qglh4ckpd" path="res://scripts/Zoomable.cs" id="1_8j3ji"]
+
+[node name="Zoomable" type="Node2D" node_paths=PackedStringArray("Thumbnails")]
+script = ExtResource("1_8j3ji")
+Thumbnails = []
