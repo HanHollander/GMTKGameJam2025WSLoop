@@ -9,13 +9,17 @@ public partial class Zoomable : Node2D
 
 	[Export] public Node2D ZoomableInstance;
 	[Export] public Array<Thumbnail> Thumbnails;
+	[Export] public bool Enabled { get; set; } = false;
+
+	[Export] public float ZoomInTimeSeconds { get; set; } = 2.0f;
+	private Thumbnail _nearestThumbnail;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// Connect(Camera.SignalName.ZoomInOverLimit, Callable.From(OnCameraZoomInOverLimit));
-		// Connect(Camera.SignalName.ZoomOutOverLimit, Callable.From(OnCameraZoomOutOverLimit));
 		Camera.Instance.ZoomInOverLimit += OnCameraZoomInOverLimit;
+		Camera.Instance.ZoomOutOverLimit += OnCameraZoomOutOverLimit;
+		Camera.Instance.ZoomAndPanOperationDone += OnCameraZoomAndPanOperationDone;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,13 +29,25 @@ public partial class Zoomable : Node2D
 
 	public void OnCameraZoomInOverLimit()
 	{
-		GD.Print("ziol");
-		FindNearestThumbnail();
+		if (!Enabled) return;
+
+		_nearestThumbnail = FindNearestThumbnail();
+
+		Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomMax * 2.0f, _nearestThumbnail.Position, 2.0f);
 	}
 
 	public void OnCameraZoomOutOverLimit()
 	{
+		if (!Enabled) return;
+
 		GD.Print("zool");
+	}
+
+	public void OnCameraZoomAndPanOperationDone()
+	{
+		if (!Enabled) return;
+
+		GD.Print("zapod");
 	}
 
 	private Thumbnail FindNearestThumbnail()
@@ -41,13 +57,12 @@ public partial class Zoomable : Node2D
 		foreach (Thumbnail thumbnail in Thumbnails)
 		{
 			Vector2 distanceVector = Camera.Instance.Position - thumbnail.Position;
-			GD.Print("found: ", distanceVector.Length(), minDistance);
 			if (distanceVector.Length() < minDistance)
 			{
 				result = thumbnail;
+				minDistance = distanceVector.Length();
 			}
 		}
-		GD.Print("closest ", result.Position);
 		return result;
 	}
 

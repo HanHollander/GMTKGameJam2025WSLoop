@@ -15,6 +15,7 @@ script = ExtResource("1_o5qli")
 [node name="UniverseZoomable" parent="." node_paths=PackedStringArray("ZoomableInstance", "Thumbnails") instance=ExtResource("5_tefeu")]
 ZoomableInstance = NodePath("Universe")
 Thumbnails = [NodePath("GalaxyThumbnail1"), NodePath("GalaxyThumbnail2")]
+Enabled = true
 
 [node name="Universe" parent="UniverseZoomable" instance=ExtResource("2_jyhfs")]
 

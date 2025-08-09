@@ -5,6 +5,7 @@ public partial class Thumbnail : Node2D
 {
 
 	[Export] public Node2D ThumbnailInstance;
+	[Export] public Zoomable LinkedZoomable;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
