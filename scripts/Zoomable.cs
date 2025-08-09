@@ -95,10 +95,7 @@ public partial class Zoomable : Node2D
 
 		if (second != null)
 		{
-			
-			first.UpdateSelectionState(false);
-			second.UpdateSelectionState(false);
-			GD.Print("CONNECT");
+			ConnectThumbnails(first, second);
 		}
 	}
 
@@ -120,4 +117,13 @@ public partial class Zoomable : Node2D
 		return result;
 	}
 
+	private void ConnectThumbnails(Thumbnail first, Thumbnail second)
+	{
+		first.UpdateSelectionState(false);
+		second.UpdateSelectionState(false);
+		GD.Print(AssetManager.Instance.GetResourceList());
+		Connection connection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
+		connection.Init(first, second);
+		AddChild(connection);
+	}
 }
