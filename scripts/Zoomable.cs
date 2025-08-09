@@ -13,6 +13,7 @@ public partial class Zoomable : Node2D
 	[Export] public float ZoomInTimeSeconds { get; set; } = 2.0f;
 	private Thumbnail _nearestThumbnail;
 	private bool _waitingForZoomAndPan;
+	private Thumbnail selectedThumbnail = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -24,7 +25,7 @@ public partial class Zoomable : Node2D
 		Camera.Instance.ZoomAndPanOperationDone += OnCameraZoomAndPanOperationDone;
 		foreach (Thumbnail thumbnail in Thumbnails)
 		{
-			thumbnail.ThumbnailSelected += OnThumbnailSelect;
+			thumbnail.ThumbnailSelectionChanged += OnThumbnailSelectionChanged;
 		}
 	}
 
@@ -72,30 +73,25 @@ public partial class Zoomable : Node2D
 		Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomInitial, new Vector2(0.0f, 0.0f), 1.0f);
 	}
 
-	public void OnThumbnailSelect()
+	public void OnThumbnailSelectionChanged(Thumbnail thumbnail, bool selected)
 	{
-		Thumbnail first = null;
-		Thumbnail second = null;
-
-		foreach (Thumbnail thumbnail in Thumbnails)
+		if (selected)
 		{
-			if (thumbnail.IsSelected())
+			if (selectedThumbnail == null)
 			{
-				if (first == null)
-				{
-					first = thumbnail;
-				}
-				else
-				{
-					second = thumbnail;
-					break;
-				}
+				selectedThumbnail = thumbnail;
+			}
+			else
+			{
+				ConnectThumbnails(selectedThumbnail, thumbnail);
+				selectedThumbnail.UpdateSelectionState(false);
+				thumbnail.UpdateSelectionState(false);
+				selectedThumbnail = null;
 			}
 		}
-
-		if (second != null)
+		else
 		{
-			ConnectThumbnails(first, second);
+			selectedThumbnail = null;
 		}
 	}
 
@@ -119,11 +115,13 @@ public partial class Zoomable : Node2D
 
 	private void ConnectThumbnails(Thumbnail first, Thumbnail second)
 	{
-		first.UpdateSelectionState(false);
-		second.UpdateSelectionState(false);
-		GD.Print(AssetManager.Instance.GetResourceList());
-		Connection connection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
-		connection.Init(first, second);
-		AddChild(connection);
+		if (!first.HasTargetThumbnail(second))
+		{
+			Connection connection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
+			connection.Init(first, second);
+			connection.ZIndex = 10;
+			AddChild(connection);
+			first.AddOutgoingConnection(connection);
+		}
 	}
 }

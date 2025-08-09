@@ -11,7 +11,7 @@ shader_parameter/scrolling_speed = 2.5
 [node name="Connection" type="Line2D"]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_ke00m")
-width = 200.0
+width = 30.0
 texture = ExtResource("1_nm06n")
 texture_mode = 1
 script = ExtResource("1_u7hla")
