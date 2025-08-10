@@ -15,6 +15,12 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Camera="*res://scripts/Camera.cs"
+AssetManager="*res://scripts/AssetManager.cs"
+ZoomStack="*res://scripts/ZoomStack.cs"
+
 [dotnet]
 
 project/assembly_name="WSLoop"
