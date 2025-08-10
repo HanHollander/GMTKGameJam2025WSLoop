@@ -124,12 +124,12 @@ public partial class Thumbnail : Area2D
 		if (selected)
 		{
 			highlight.Show();
-			EmitSignal(SignalName.ThumbnailSelectionChanged, this, selected);
 		}
 		else
 		{
 			highlight.Hide();
 		}
+		EmitSignal(SignalName.ThumbnailSelectionChanged, this, selected);
 	}
 
 	public void UpdateGraphics()
