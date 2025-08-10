@@ -20,6 +20,7 @@ public partial class Zoomable : Node2D
 {
 
 	[Export] public Array<Thumbnail> Thumbnails;
+	[Export] public Thumbnail ShipThumbnail;
 	[Export] public bool Enabled { get; set; } = false;
 
 	[Export] public float ZoomInTime { get; set; } = 1.0f;
@@ -47,6 +48,7 @@ public partial class Zoomable : Node2D
 		{
 			thumbnail.ThumbnailSelectionChanged += OnThumbnailSelectionChanged;
 		}
+		ShipThumbnail.ThumbnailSelectionChanged += OnThumbnailSelectionChanged;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -212,7 +214,11 @@ public partial class Zoomable : Node2D
 			}
 			else
 			{
-				ConnectThumbnails(selectedThumbnail, thumbnail);
+				if (selectedThumbnail.GetOccupier() == Thumbnail.Occupier.PLAYER
+					&& selectedThumbnail.GetThumbnailType() != Thumbnail.ThumbnailType.NORMAL)
+				{
+					ConnectThumbnails(selectedThumbnail, thumbnail);
+				}
 				selectedThumbnail.UpdateSelectionState(false);
 				thumbnail.UpdateSelectionState(false);
 				selectedThumbnail = null;
@@ -242,15 +248,51 @@ public partial class Zoomable : Node2D
 		return result;
 	}
 
-	private void ConnectThumbnails(Thumbnail first, Thumbnail second)
+	private void ConnectThumbnails(Thumbnail ship, Thumbnail node)
 	{
-		if (!first.HasTargetThumbnail(second))
+		if (!ship.HasTargetThumbnail(node))
 		{
 			Connection connection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
-			connection.Init(first, second);
+			connection.Init(ship, node, true);
 			connection.ZIndex = 10;
 			AddChild(connection);
-			first.AddOutgoingConnection(connection);
+			ship.AddOutgoingConnection(connection);
+
+			foreach (Thumbnail thumbnail in node.LinkedZoomable.Thumbnails)
+			{
+				if (thumbnail.LinkedZoomable == this)
+				{
+					Connection infoConnection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
+					infoConnection.Init(thumbnail, node.LinkedZoomable.ShipThumbnail);
+					node.LinkedZoomable.AddChild(infoConnection);
+					connection.AddInfoConnection(infoConnection);
+				}
+			}
+
+			foreach (Zoomable zoomable in GetNode<Main>("..").Zoomables)
+			{
+				Thumbnail sourceThumbnail = null;
+				Thumbnail targetThumbnail = null;
+				foreach (Thumbnail thumbnail in zoomable.Thumbnails)
+				{
+					if (thumbnail.LinkedZoomable.ShipThumbnail == ship)
+					{
+						sourceThumbnail = thumbnail;
+					}
+					if (thumbnail.LinkedZoomable == node.LinkedZoomable)
+					{
+						targetThumbnail = thumbnail;
+					}
+				}
+				if (sourceThumbnail != null && targetThumbnail != null)
+				{
+					Connection infoConnection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
+					infoConnection.Init(sourceThumbnail, targetThumbnail);
+					zoomable.AddChild(infoConnection);
+					connection.AddInfoConnection(infoConnection);
+				}
+			}
+			
 		}
 	}
 }
