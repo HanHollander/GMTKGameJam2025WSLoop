@@ -193,7 +193,10 @@ public partial class Thumbnail : Area2D
 			if (newTroopCount <= 0)
 			{
 				occupier = sender;
-				// TODO disconnect outgoingConnections
+				for (int i = outgoingConnections.Count - 1; i >= 0; i--)
+				{
+					outgoingConnections[i].RemoveConnection();
+				}
 			}
 			troops = Math.Abs(newTroopCount);
 		}
