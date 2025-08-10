@@ -5,4 +5,4 @@
 [resource]
 shader = ExtResource("1_dp1ja")
 shader_parameter/scrolling_speed = 0.7
-shader_parameter/rgba = Color(0, 0, 1, 1)
+shader_parameter/rgba = Color(0, 0.721569, 0.741176, 1)
