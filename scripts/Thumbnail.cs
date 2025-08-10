@@ -136,7 +136,7 @@ public partial class Thumbnail : Area2D
 	{
 		Label label = GetNode<Label>("Troops");
 		label.Text = troops.ToString();
-		label.LabelSettings = AssetManager.Instance.GetTroopsLabelSettings(occupier);
+		// label.LabelSettings = AssetManager.Instance.GetTroopsLabelSettings(occupier);
 
 		if (thumbnailType == ThumbnailType.NORMAL)
 		{
