@@ -15,6 +15,8 @@ public partial class Thumbnail : Area2D
 	[Export] private ThumbnailType thumbnailType = ThumbnailType.NORMAL;
 	[Export] private Occupier occupier = Occupier.NEUTRAL;
 
+	[Export] private float SelectRotationSpeed = -2.0f;
+
 	private double regenTimer = 0f;
 	private double attackTimer = 0f;
 
@@ -74,6 +76,7 @@ public partial class Thumbnail : Area2D
 			}
 		}
 		UpdateTroopLabel();
+		UpdateHighlightRotation(delta);
 	}
 
 	private void DoAttack()
@@ -212,8 +215,16 @@ public partial class Thumbnail : Area2D
 
 	public void SetBackgrounds()
 	{
-
 		GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(occupier, LinkedZoomable.ZoomableShapeType);
 		LinkedZoomable.GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(occupier, LinkedZoomable.ZoomableShapeType);
+	}
+
+	public void UpdateHighlightRotation(double delta)
+	{
+		float oldRotation = GetNode<Sprite2D>("Highlight").Rotation;
+		float dRotation = (float)(delta / 1.0f * SelectRotationSpeed);
+		float newRotation = (oldRotation + dRotation) % 360.0f;
+		GetNode<Sprite2D>("Highlight").Rotation = newRotation;
+	
 	}
 }

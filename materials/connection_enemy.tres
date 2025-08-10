@@ -5,4 +5,4 @@
 [resource]
 shader = ExtResource("1_pvniu")
 shader_parameter/scrolling_speed = 0.7
-shader_parameter/rgba = Color(0.80677, 0.385318, 0.405382, 1)
+shader_parameter/rgba = Color(0.828991, 0.192948, 0.114296, 1)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b5uoar63yn8bt"]
 
 [ext_resource type="Script" uid="uid://b0y1whditrhap" path="res://scripts/Thumbnail.cs" id="1_q031a"]
-[ext_resource type="Texture2D" uid="uid://dvmfb8eqep82x" path="res://sprites/highlight.png" id="3_akuhd"]
+[ext_resource type="Texture2D" uid="uid://cufljd51i1twc" path="res://sprites/highlight2.png" id="2_paav1"]
 [ext_resource type="LabelSettings" uid="uid://b70fgw14nmle0" path="res://labels/troops-label-neutral.tres" id="3_paav1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_837jk"]
@@ -15,9 +15,10 @@ script = ExtResource("1_q031a")
 [node name="Highlight" type="Sprite2D" parent="."]
 z_index = 15
 scale = Vector2(7.38, 7.38)
-texture = ExtResource("3_akuhd")
+texture = ExtResource("2_paav1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_837jk")
 
 [node name="Troops" type="Label" parent="."]
