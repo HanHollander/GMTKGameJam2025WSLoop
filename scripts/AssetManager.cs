@@ -8,6 +8,26 @@ public partial class AssetManager : ResourcePreloader
 
 	public static AssetManager Instance { get; private set; }
 
+	private static Dictionary<Thumbnail.ThumbnailType, Dictionary<Thumbnail.Occupier, String>> shipSpriteLookup = new()
+	{
+		{   Thumbnail.ThumbnailType.MOTHER_SHIP,
+			new()
+			{
+				{ Thumbnail.Occupier.PLAYER, "mothership-blue"},
+				{ Thumbnail.Occupier.ENEMY, "mothership-red"}
+			}
+		},
+		{   Thumbnail.ThumbnailType.SHIP,
+			new()
+			{
+				{ Thumbnail.Occupier.PLAYER, "ship-blue"},
+				{ Thumbnail.Occupier.ENEMY, "ship-red"},
+				{ Thumbnail.Occupier.NEUTRAL, "ship-white"},
+			}
+		}
+		
+	};
+
 	private static Dictionary<Thumbnail.Occupier, Dictionary<Zoomable.ShapeType, String>> spriteLookup = new()
 	{
 		{   Thumbnail.Occupier.PLAYER,
@@ -49,6 +69,12 @@ public partial class AssetManager : ResourcePreloader
 		AddResource("troops-label-player", GD.Load<LabelSettings>("res://labels/troops-label-player.tres"));
 		AddResource("troops-label-enemy", GD.Load<LabelSettings>("res://labels/troops-label-enemy.tres"));
 
+		AddResource("mothership-blue", GD.Load<CompressedTexture2D>("res://sprites/ships/mothership_blue.png"));
+		AddResource("mothership-red", GD.Load<CompressedTexture2D>("res://sprites/ships/mothership_red.png"));
+		AddResource("ship-blue", GD.Load<CompressedTexture2D>("res://sprites/ships/ship_blue.png"));
+		AddResource("ship-red", GD.Load<CompressedTexture2D>("res://sprites/ships/ship_red.png"));
+		AddResource("ship-white", GD.Load<CompressedTexture2D>("res://sprites/ships/ship_white.png"));
+
 		AddResource("so-a-b", GD.Load<CompressedTexture2D>("res://sprites/space_obj/SpaceObjectA-B.png"));
 		AddResource("so-b-b", GD.Load<CompressedTexture2D>("res://sprites/space_obj/SpaceObjectB-B.png"));
 		AddResource("so-c-b", GD.Load<CompressedTexture2D>("res://sprites/space_obj/SpaceObjectC-B.png"));
@@ -71,6 +97,11 @@ public partial class AssetManager : ResourcePreloader
 	public PackedScene GetConnectionScene()
 	{
 		return (PackedScene)GetResource("connection");
+	}
+
+	public CompressedTexture2D GetShipTexture(Thumbnail.ThumbnailType thumbnailType, Thumbnail.Occupier occupier)
+	{
+		return (CompressedTexture2D)GetResource(shipSpriteLookup[thumbnailType][occupier]);
 	}
 
 	public CompressedTexture2D GetZoomableTexture(Thumbnail.Occupier occupier, Zoomable.ShapeType shapeType)

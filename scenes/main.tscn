@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwaakbxfq3ys3"]
+[gd_scene load_steps=11 format=3 uid="uid://bwaakbxfq3ys3"]
 
 [ext_resource type="Script" uid="uid://b8ytumrwxhnoh" path="res://scripts/Main.cs" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bvbe1sk06wfeh" path="res://scenes/gui.tscn" id="4_tbgi4"]
@@ -19,15 +19,6 @@ height = 1024
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 1)
-
-[sub_resource type="Gradient" id="Gradient_85g3d"]
-offsets = PackedFloat32Array(0.397906, 0.575916, 0.806283)
-colors = PackedColorArray(0.309804, 0.921569, 0, 1, 0.870588, 0, 0.870588, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_choun"]
-gradient = SubResource("Gradient_85g3d")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
 
 [node name="Main" type="Node" node_paths=PackedStringArray("Zoomables")]
 script = ExtResource("1_o5qli")
@@ -75,7 +66,7 @@ BASE_TROOPS = 30
 thumbnailType = 1
 occupier = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="ZoomableA/ThumbnailMShip"]
+[node name="Background" type="Sprite2D" parent="ZoomableA/ThumbnailMShip"]
 scale = Vector2(34.77, 34.77)
 
 [node name="ZoomableB" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
@@ -116,9 +107,8 @@ texture = ExtResource("8_ya4ey")
 [node name="ThumbnailShip" parent="ZoomableB" instance=ExtResource("6_o6xl0")]
 thumbnailType = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="ZoomableB/ThumbnailShip"]
+[node name="Background" type="Sprite2D" parent="ZoomableB/ThumbnailShip"]
 scale = Vector2(34.77, 34.77)
-texture = SubResource("GradientTexture2D_choun")
 
 [node name="ZoomableC" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 visible = false
@@ -158,9 +148,8 @@ texture = ExtResource("8_ya4ey")
 [node name="ThumbnailShip" parent="ZoomableC" instance=ExtResource("6_o6xl0")]
 thumbnailType = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="ZoomableC/ThumbnailShip"]
+[node name="Background" type="Sprite2D" parent="ZoomableC/ThumbnailShip"]
 scale = Vector2(34.77, 34.77)
-texture = SubResource("GradientTexture2D_choun")
 
 [node name="ZoomableD" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 visible = false
@@ -193,6 +182,5 @@ texture = ExtResource("7_choun")
 thumbnailType = 1
 occupier = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="ZoomableD/ThumbnailEMShip"]
+[node name="Background" type="Sprite2D" parent="ZoomableD/ThumbnailEMShip"]
 scale = Vector2(34.77, 34.77)
-texture = SubResource("GradientTexture2D_choun")

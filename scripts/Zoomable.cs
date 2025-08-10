@@ -281,6 +281,7 @@ public partial class Zoomable : Node2D
 				{
 					Connection infoConnection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
 					infoConnection.Init(thumbnail, node.LinkedZoomable.ShipThumbnail);
+					infoConnection.ZIndex = 10;
 					node.LinkedZoomable.AddChild(infoConnection);
 					connection.AddInfoConnection(infoConnection);
 				}
@@ -305,6 +306,7 @@ public partial class Zoomable : Node2D
 				{
 					Connection infoConnection = AssetManager.Instance.GetConnectionScene().Instantiate<Connection>();
 					infoConnection.Init(sourceThumbnail, targetThumbnail);
+					infoConnection.ZIndex = 10;
 					zoomable.AddChild(infoConnection);
 					connection.AddInfoConnection(infoConnection);
 				}
