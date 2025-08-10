@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dsv3orv8nlf3o"]
+
+[ext_resource type="Shader" uid="uid://tsdfuq5ntqle" path="res://shaders/connection.gdshader" id="1_b333e"]
+
+[resource]
+shader = ExtResource("1_b333e")
+shader_parameter/scrolling_speed = 0.7
+shader_parameter/rgba = Color(1, 0, 0, 0.784314)
