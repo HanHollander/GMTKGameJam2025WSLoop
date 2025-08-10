@@ -1,18 +1,32 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Connection : Line2D
 {
 
+	private static double ANIMATION_DURATION = 2.0;
+
 	private Thumbnail source;
 	private Thumbnail target;
+	private List<Connection> infoConnections = [];
+	private bool animate = false;
+	private double animationTime = 0.0;
 
-	public void Init(Thumbnail source, Thumbnail target)
+	public void Init(Thumbnail source, Thumbnail target, bool animate = false)
 	{
 		this.source = source;
 		this.target = target;
+		this.animate = animate;
 		AddPoint(source.Position);
-		AddPoint(target.Position);
+		if (animate)
+		{
+			AddPoint(source.Position);
+		}
+		else
+		{
+			AddPoint(target.Position);
+		}
 	}
 
 	public override void _Input(InputEvent inEvent)
@@ -21,7 +35,8 @@ public partial class Connection : Line2D
 		&& mouseEvent.Pressed
 		&& GetNode<Zoomable>("..").Enabled // Is on screen
 		&& MouseIsOnLine()
-		)// && first.GetOccupier() == Thumbnail.Occupier.PLAYER)
+		&& this.source.GetThumbnailType() != Thumbnail.ThumbnailType.NORMAL
+		&& this.source.GetOccupier() == Thumbnail.Occupier.PLAYER)
 		{
 
 			RemoveConnection();
@@ -36,17 +51,42 @@ public partial class Connection : Line2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (animate)
+		{
+			animationTime += delta;
+			if (animationTime >= ANIMATION_DURATION)
+			{
+				SetPointPosition(1, target.Position);
+				animate = false;
+			}
+			else
+			{
+				double progress = animationTime / ANIMATION_DURATION;
+				float dx = target.Position.X - source.Position.X;
+				float dy = target.Position.Y - source.Position.Y;
+				SetPointPosition(1, new Vector2((float)(dx * progress), (float)(dy * progress)));
+			}
+		}
 	}
 
 	public void RemoveConnection()
 	{
 		source.RemoveOutgoingConnection(this);
+		foreach (Connection connection in infoConnections)
+		{
+			connection.QueueFree();
+		}
 		QueueFree();
 	}
 
 	public Thumbnail GetTargetThumbnail()
 	{
 		return target;
+	}
+
+	public void AddInfoConnection(Connection connection)
+	{
+		infoConnections.Add(connection);
 	}
 
 	private bool MouseIsOnLine()

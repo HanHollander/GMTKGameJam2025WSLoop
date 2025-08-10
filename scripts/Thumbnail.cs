@@ -5,12 +5,15 @@ using System.Collections.Generic;
 
 public partial class Thumbnail : Area2D
 {
-	private static int BASE_TROOPS = 10;
-	private static int MIN_TROOPS_FOR_ATTACK = 10;
-	private static double REGEN_INTERVAL = 1.0f;
-	private static int REGEN_AMMOUNT = 1;
-	private static double ATTACK_INTERVAL = 3.0f;
-	private static int ATTACK_AMMOUNT = 2;
+	[Export] private int BASE_TROOPS = 10;
+	[Export] private int MIN_TROOPS_FOR_ATTACK = 10;
+	[Export] private double REGEN_INTERVAL = 1.0f;
+	[Export] private int REGEN_AMMOUNT = 1;
+	[Export] private double ATTACK_INTERVAL = 3.0f;
+	[Export] private int ATTACK_AMMOUNT = 2;
+
+	[Export] private ThumbnailType thumbnailType = ThumbnailType.NORMAL;
+	[Export] private Occupier occupier = Occupier.NEUTRAL;
 
 	private double regenTimer = 0f;
 	private double attackTimer = 0f;
@@ -20,10 +23,14 @@ public partial class Thumbnail : Area2D
 		NEUTRAL, PLAYER, ENEMY
 	}
 
+	public enum ThumbnailType
+	{
+		NORMAL, MOTHER_SHIP, SHIP
+	}
+
 	private bool selected = false;
 	private List<Connection> outgoingConnections = [];
-	private Occupier occupier = Occupier.NEUTRAL;
-	private int troops = BASE_TROOPS;
+	private int troops = 0;
 
 	[Export] public Zoomable LinkedZoomable;
 
@@ -33,23 +40,33 @@ public partial class Thumbnail : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		troops = BASE_TROOPS;
 		UpdateSelectionState(false);
+		UpdateTroopLabel();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		regenTimer += delta;
-		attackTimer += delta;
-		if (regenTimer > REGEN_INTERVAL) // && occupier != Occupier.NEUTRAL)
+		if (thumbnailType == ThumbnailType.NORMAL)
 		{
-			troops += REGEN_AMMOUNT;
-			regenTimer -= REGEN_INTERVAL;
+			troops = LinkedZoomable.ShipThumbnail.GetTroops();
+			occupier = LinkedZoomable.ShipThumbnail.GetOccupier();
 		}
-		if (attackTimer > ATTACK_INTERVAL)
+		else if (occupier != Occupier.NEUTRAL)
 		{
-			DoAttack();
-			attackTimer -= ATTACK_INTERVAL;
+			regenTimer += delta;
+			attackTimer += delta;
+			if (regenTimer > REGEN_INTERVAL)
+			{
+				troops += REGEN_AMMOUNT;
+				regenTimer -= REGEN_INTERVAL;
+			}
+			if (attackTimer > ATTACK_INTERVAL)
+			{
+				DoAttack();
+				attackTimer -= ATTACK_INTERVAL;
+			}
 		}
 		UpdateTroopLabel();
 	}
@@ -65,7 +82,7 @@ public partial class Thumbnail : Area2D
 				foreach (Connection connection in outgoingConnections)
 				{
 					attackAmmount--;
-					connection.GetTargetThumbnail().ReceiveTroops(1, occupier);
+					connection.GetTargetThumbnail().LinkedZoomable.ShipThumbnail.ReceiveTroops(1, occupier);
 				}
 			}
 		}
@@ -113,7 +130,9 @@ public partial class Thumbnail : Area2D
 
 	public void UpdateTroopLabel()
 	{
-		GetNode<Label>("Troops").Text = troops.ToString();
+		Label label = GetNode<Label>("Troops");
+		label.Text = troops.ToString();
+		label.LabelSettings = AssetManager.Instance.GetTroopsLabelSettings(occupier);
 	}
 
 	public bool IsSelected()
@@ -148,6 +167,11 @@ public partial class Thumbnail : Area2D
 		return occupier;
 	}
 
+	public Thumbnail.ThumbnailType GetThumbnailType()
+	{
+		return thumbnailType;
+	}
+
 	public void ReceiveTroops(int nofTroops, Occupier sender)
 	{
 		if (sender != occupier)
@@ -156,6 +180,7 @@ public partial class Thumbnail : Area2D
 			if (newTroopCount <= 0)
 			{
 				occupier = sender;
+				// TODO disconnect outgoingConnections
 			}
 			troops = Math.Abs(newTroopCount);
 		}
@@ -163,5 +188,15 @@ public partial class Thumbnail : Area2D
 		{
 			troops += nofTroops;
 		}
+	}
+
+	public void SetTroops(int nofTroops)
+	{
+		troops = nofTroops;
+	}
+
+	public int GetTroops()
+	{
+		return troops;
 	}
 }

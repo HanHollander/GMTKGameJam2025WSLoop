@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwaakbxfq3ys3"]
+[gd_scene load_steps=13 format=3 uid="uid://bwaakbxfq3ys3"]
 
 [ext_resource type="Script" uid="uid://b8ytumrwxhnoh" path="res://scripts/Main.cs" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bvbe1sk06wfeh" path="res://scenes/gui.tscn" id="4_tbgi4"]
@@ -18,8 +18,18 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 1)
 
-[node name="Main" type="Node"]
+[sub_resource type="Gradient" id="Gradient_85g3d"]
+offsets = PackedFloat32Array(0.397906, 0.575916, 0.806283)
+colors = PackedColorArray(0.309804, 0.921569, 0, 1, 0.870588, 0, 0.870588, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_choun"]
+gradient = SubResource("Gradient_85g3d")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="Main" type="Node" node_paths=PackedStringArray("Zoomables")]
 script = ExtResource("1_o5qli")
+Zoomables = [NodePath("ZoomableA"), NodePath("ZoomableB"), NodePath("ZoomableC"), NodePath("ZoomableD")]
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -2
@@ -30,8 +40,9 @@ region_rect = Rect2(0, 0, 40000, 40000)
 
 [node name="Gui" parent="." instance=ExtResource("4_tbgi4")]
 
-[node name="ZoomableA" parent="." node_paths=PackedStringArray("Thumbnails") instance=ExtResource("5_tefeu")]
+[node name="ZoomableA" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 Thumbnails = [NodePath("ThumbnailB"), NodePath("ThumbnailC")]
+ShipThumbnail = NodePath("ThumbnailMShip")
 Enabled = true
 
 [node name="Background" type="Sprite2D" parent="ZoomableA"]
@@ -57,9 +68,19 @@ metadata/_edit_group_ = true
 [node name="Background" type="Sprite2D" parent="ZoomableA/ThumbnailC"]
 texture = ExtResource("7_85g3d")
 
-[node name="ZoomableB" parent="." node_paths=PackedStringArray("Thumbnails") instance=ExtResource("5_tefeu")]
+[node name="ThumbnailMShip" parent="ZoomableA" instance=ExtResource("6_o6xl0")]
+BASE_TROOPS = 30
+thumbnailType = 1
+occupier = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="ZoomableA/ThumbnailMShip"]
+scale = Vector2(34.77, 34.77)
+texture = SubResource("GradientTexture2D_choun")
+
+[node name="ZoomableB" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 visible = false
 Thumbnails = [NodePath("ThumbnailA"), NodePath("ThumbnailC"), NodePath("ThumbnailD")]
+ShipThumbnail = NodePath("ThumbnailShip")
 
 [node name="Background" type="Sprite2D" parent="ZoomableB"]
 texture = ExtResource("6_tipki")
@@ -90,9 +111,17 @@ metadata/_edit_group_ = true
 [node name="Background" type="Sprite2D" parent="ZoomableB/ThumbnailD"]
 texture = ExtResource("8_choun")
 
-[node name="ZoomableC" parent="." node_paths=PackedStringArray("Thumbnails") instance=ExtResource("5_tefeu")]
+[node name="ThumbnailShip" parent="ZoomableB" instance=ExtResource("6_o6xl0")]
+thumbnailType = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ZoomableB/ThumbnailShip"]
+scale = Vector2(34.77, 34.77)
+texture = SubResource("GradientTexture2D_choun")
+
+[node name="ZoomableC" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 visible = false
 Thumbnails = [NodePath("ThumbnailA"), NodePath("ThumbnailB"), NodePath("ThumbnailD")]
+ShipThumbnail = NodePath("ThumbnailShip")
 
 [node name="Background" type="Sprite2D" parent="ZoomableC"]
 texture = ExtResource("7_85g3d")
@@ -123,9 +152,17 @@ metadata/_edit_group_ = true
 [node name="Background" type="Sprite2D" parent="ZoomableC/ThumbnailD"]
 texture = ExtResource("8_choun")
 
-[node name="ZoomableD" parent="." node_paths=PackedStringArray("Thumbnails") instance=ExtResource("5_tefeu")]
+[node name="ThumbnailShip" parent="ZoomableC" instance=ExtResource("6_o6xl0")]
+thumbnailType = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ZoomableC/ThumbnailShip"]
+scale = Vector2(34.77, 34.77)
+texture = SubResource("GradientTexture2D_choun")
+
+[node name="ZoomableD" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 visible = false
 Thumbnails = [NodePath("ThumbnailB"), NodePath("ThumbnailC")]
+ShipThumbnail = NodePath("ThumbnailEMShip")
 
 [node name="Background" type="Sprite2D" parent="ZoomableD"]
 texture = ExtResource("8_choun")
@@ -147,3 +184,11 @@ metadata/_edit_group_ = true
 
 [node name="Background" type="Sprite2D" parent="ZoomableD/ThumbnailC"]
 texture = ExtResource("7_85g3d")
+
+[node name="ThumbnailEMShip" parent="ZoomableD" instance=ExtResource("6_o6xl0")]
+thumbnailType = 1
+occupier = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ZoomableD/ThumbnailEMShip"]
+scale = Vector2(34.77, 34.77)
+texture = SubResource("GradientTexture2D_choun")
