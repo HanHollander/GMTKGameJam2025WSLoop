@@ -43,6 +43,11 @@ public partial class Thumbnail : Area2D
 		troops = BASE_TROOPS;
 		UpdateSelectionState(false);
 		UpdateTroopLabel();
+
+		if (thumbnailType == ThumbnailType.NORMAL)
+		{
+			GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(occupier, LinkedZoomable.ZoomableShapeType);
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -71,8 +76,8 @@ public partial class Thumbnail : Area2D
 		UpdateTroopLabel();
 	}
 
-    private void DoAttack()
-    {
+	private void DoAttack()
+	{
 		if (troops > MIN_TROOPS_FOR_ATTACK && outgoingConnections.Count > 0) // && occupier != Occupier.NEUTRAL)
 		{
 			int attackAmmount = Math.Min(ATTACK_AMMOUNT, troops - MIN_TROOPS_FOR_ATTACK);
@@ -86,16 +91,16 @@ public partial class Thumbnail : Area2D
 				}
 			}
 		}
-    }
+	}
 
 
-    /* 
+	/* 
 	 * ===========
 	 * == INPUT ==
 	 * ===========
 	 */
 
-    public override void _InputEvent(Viewport viewport, InputEvent inEvent, int shapeIdx)
+	public override void _InputEvent(Viewport viewport, InputEvent inEvent, int shapeIdx)
 	{
 		if (inEvent is InputEventMouseButton mouseEvent && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
@@ -133,6 +138,11 @@ public partial class Thumbnail : Area2D
 		Label label = GetNode<Label>("Troops");
 		label.Text = troops.ToString();
 		label.LabelSettings = AssetManager.Instance.GetTroopsLabelSettings(occupier);
+
+		if (thumbnailType == ThumbnailType.NORMAL)
+		{
+			SetBackgrounds();
+		}
 	}
 
 	public bool IsSelected()
@@ -198,5 +208,12 @@ public partial class Thumbnail : Area2D
 	public int GetTroops()
 	{
 		return troops;
+	}
+
+	public void SetBackgrounds()
+	{
+
+		GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(occupier, LinkedZoomable.ZoomableShapeType);
+		LinkedZoomable.GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(occupier, LinkedZoomable.ZoomableShapeType);
 	}
 }
