@@ -96,7 +96,7 @@ public partial class Zoomable : Node2D
 		_waitingForZoomAndPan = true;
 		_waitingForZoomIn = true;
 
-		_nearestThumbnail = FindNearestThumbnail();
+		_nearestThumbnail = selectedThumbnail != null ? selectedThumbnail : FindNearestThumbnail();
 		Camera.Instance.ZoomAndPanToOverTime(Camera.Instance.ZoomMax * ZoomInMult, _nearestThumbnail.GlobalPosition, ZoomInTime);
 	}
 
@@ -126,7 +126,7 @@ public partial class Zoomable : Node2D
 			// Push self onto the ZoomStack
 			ZoomStack.Instance.ZoomableStack.Push(this);
 
-			// Show linked Zoomable (neares Thumbnail)
+			// Show linked Zoomable (nearest Thumbnail)
 			_nearestThumbnail.LinkedZoomable.Show();
 			_nearestThumbnail.LinkedZoomable.Enabled = true;
 
@@ -187,14 +187,22 @@ public partial class Zoomable : Node2D
 			}
 			else
 			{
-				parentZoomableSprite.Texture = (Texture2D)GetNode<Sprite2D>("Background").Texture;
+				Zoomable parentZoomableParentZoomable = ZoomStack.Instance.ZoomableStack.Peek();
+				parentZoomableSprite.Texture = parentZoomableParentZoomable.GetNode<Sprite2D>("Background").Texture;
 				parentZoomableSprite.ZIndex = -1;
 
-				float bgScale = 1 / _nearestThumbnail.Scale.X;
+				foreach (Thumbnail thumbnail in parentZoomableParentZoomable.Thumbnails)
+				{
+					if (thumbnail.LinkedZoomable == parentZoomable)
+					{
+						representative = thumbnail;
+					}
+				}
+				float bgScale = 1 / representative.Scale.X;
 				parentZoomableSprite.Scale = new Vector2(bgScale, bgScale);
-				parentZoomableSprite.Position = -1.0f * _nearestThumbnail.Position * bgScale;
+				parentZoomableSprite.Position = -1.0f * representative.Position * bgScale;
 
-				// Fade parentZoomable to full
+				// Fade parentZoomable to full (after reset to zero)
 				Color modulate = parentZoomableSprite.SelfModulate;
 				modulate.A = 0.0f;
 				parentZoomableSprite.SelfModulate = modulate;

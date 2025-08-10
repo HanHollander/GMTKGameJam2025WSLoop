@@ -24,7 +24,7 @@ public partial class Camera : Camera2D
 	[Signal] public delegate void ZoomOutOverLimitEventHandler();
 	[Signal] public delegate void ZoomAndPanOperationDoneEventHandler();
 
-	[Export] public float ZoomSpeed { get; set; } = 1.05f;
+	[Export] public float ZoomSpeed { get; set; } = 1.15f;
 	[Export] public float ZoomMin { get; set; } = 0.07f;
 	[Export] public float ZoomMax { get; set; } = 0.25f;
 	[Export] public float ZoomInitial { get; set; } = 0.085f;
@@ -86,7 +86,7 @@ public partial class Camera : Camera2D
 			{
 				_isPressed = buttonEvent.IsPressed();
 			}
-			if (buttonEvent.ButtonIndex == MouseButton.WheelUp)
+			if (buttonEvent.ButtonIndex == MouseButton.WheelUp && buttonEvent.IsPressed())
 			{
 				Vector2 newZoom = GetNewZoom(ZoomSpeed);
 				if (newZoom.X < ZoomMax)
@@ -98,7 +98,7 @@ public partial class Camera : Camera2D
 					EmitSignal(SignalName.ZoomInOverLimit);
 				}
 			}
-			if (buttonEvent.ButtonIndex == MouseButton.WheelDown)
+			if (buttonEvent.ButtonIndex == MouseButton.WheelDown && buttonEvent.IsPressed())
 			{
 				Vector2 targetZoom = GetNewZoom(1 / ZoomSpeed);
 				if (targetZoom.X > ZoomMin)
@@ -120,11 +120,11 @@ public partial class Camera : Camera2D
 
 	public void ZoomTo(Vector2 targetZoom)
 	{
-		// Vector2 mousePosition = GetLocalMousePosition();
+		Vector2 mousePosition = GetGlobalMousePosition();
 		Zoom = targetZoom;
-		// Vector2 newMousePosition = GetLocalMousePosition();
-		// Vector2 dPosition = mousePosition - newMousePosition;
-		// Position += dPosition;
+		Vector2 newMousePosition = GetGlobalMousePosition();
+		Vector2 dPosition = mousePosition - newMousePosition;
+		GlobalPosition += dPosition;
 	}
 
 	public void ZoomAndPanToOverTime(float targetZoom, Vector2 targetPosition, float timeSeconds)
