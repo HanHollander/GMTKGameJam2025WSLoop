@@ -17,7 +17,7 @@ public partial class Connection : Line2D
 	private Vector2 shiftedSource;
 	private Vector2 shiftedTarget;
 
-	public void Init(Thumbnail source, Thumbnail target, bool animate = true)
+	public void Init(Thumbnail source, Thumbnail target, bool animate = false)
 	{
 		this.source = source;
 		this.target = target;
