@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://di5a27b6nejsy" path="res://scripts/Enemy.cs" id="9_85g3d"]
 
 [sub_resource type="Gradient" id="Gradient_tipki"]
-colors = PackedColorArray(0, 0, 0, 1, 0.0145595, 1.58621e-05, 0.0471288, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_85g3d"]
 gradient = SubResource("Gradient_tipki")
@@ -25,11 +25,11 @@ script = ExtResource("1_o5qli")
 Zoomables = [NodePath("ZoomableA"), NodePath("ZoomableB"), NodePath("ZoomableC"), NodePath("ZoomableD")]
 
 [node name="Background" type="Sprite2D" parent="."]
-z_index = -2
+z_index = -20
 texture_repeat = 2
 texture = SubResource("GradientTexture2D_85g3d")
 region_enabled = true
-region_rect = Rect2(0, 0, 40000, 40000)
+region_rect = Rect2(0, 0, 80000, 80000)
 
 [node name="ZoomableA" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 Thumbnails = [NodePath("ThumbnailB"), NodePath("ThumbnailC")]

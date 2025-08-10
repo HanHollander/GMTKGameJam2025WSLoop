@@ -1,5 +1,8 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://derxcyinq7fss"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://derxcyinq7fss"]
+
+[ext_resource type="FontFile" uid="uid://ucahjgru54j6" path="res://labels/SPACE.ttf" id="1_qy4iw"]
 
 [resource]
-font_size = 700
-font_color = Color(0, 1, 0, 1)
+font = ExtResource("1_qy4iw")
+font_size = 600
+font_color = Color(9.2411e-06, 0.77385, 0.670671, 1)
