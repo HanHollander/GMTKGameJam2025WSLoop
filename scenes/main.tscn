@@ -1,13 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwaakbxfq3ys3"]
+[gd_scene load_steps=14 format=3 uid="uid://bwaakbxfq3ys3"]
 
 [ext_resource type="Script" uid="uid://b8ytumrwxhnoh" path="res://scripts/Main.cs" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://bvbe1sk06wfeh" path="res://scenes/gui.tscn" id="4_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://c7wi8ogpha1c0" path="res://sprites/space_obj/SpaceObjectA-N.png" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://bvvk20q08id06" path="res://scenes/zoomable.tscn" id="5_tefeu"]
 [ext_resource type="Texture2D" uid="uid://d2qkv8l0ime5o" path="res://sprites/space_obj/SpaceObjectB-N.png" id="6_85g3d"]
 [ext_resource type="PackedScene" uid="uid://b5uoar63yn8bt" path="res://scenes/thumbnail.tscn" id="6_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://b21mntd2exmug" path="res://sprites/planet.png" id="7_85g3d"]
 [ext_resource type="Texture2D" uid="uid://cbflwiupphcfq" path="res://sprites/space_obj/SpaceObjectC-N.png" id="7_choun"]
 [ext_resource type="Texture2D" uid="uid://c0jl4oqtgh7o6" path="res://sprites/space_obj/SpaceObjectD-N.png" id="8_ya4ey"]
+[ext_resource type="Script" uid="uid://di5a27b6nejsy" path="res://scripts/Enemy.cs" id="9_85g3d"]
 
 [sub_resource type="Gradient" id="Gradient_tipki"]
 colors = PackedColorArray(0, 0, 0, 1, 0.0145595, 1.58621e-05, 0.0471288, 1)
@@ -40,8 +41,6 @@ texture = SubResource("GradientTexture2D_85g3d")
 region_enabled = true
 region_rect = Rect2(0, 0, 40000, 40000)
 
-[node name="Gui" parent="." instance=ExtResource("4_tbgi4")]
-
 [node name="ZoomableA" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 Thumbnails = [NodePath("ThumbnailB"), NodePath("ThumbnailC")]
 ShipThumbnail = NodePath("ThumbnailMShip")
@@ -53,7 +52,6 @@ texture = ExtResource("4_tipki")
 [node name="ParentZoomable" type="Sprite2D" parent="ZoomableA/Background"]
 
 [node name="ThumbnailB" parent="ZoomableA" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-z_index = 1
 position = Vector2(-602.5, -81)
 LinkedZoomable = NodePath("../../ZoomableB")
 metadata/_edit_group_ = true
@@ -62,7 +60,6 @@ metadata/_edit_group_ = true
 texture = ExtResource("6_85g3d")
 
 [node name="ThumbnailC" parent="ZoomableA" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-z_index = 1
 position = Vector2(172.5, 498.25)
 LinkedZoomable = NodePath("../../ZoomableC")
 metadata/_edit_group_ = true
@@ -76,7 +73,9 @@ thumbnailType = 1
 occupier = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="ZoomableA/ThumbnailMShip"]
-scale = Vector2(34.77, 34.77)
+position = Vector2(-37.4995, -0.000488281)
+scale = Vector2(5.92667, 5.92667)
+texture = ExtResource("7_85g3d")
 
 [node name="ZoomableB" parent="." node_paths=PackedStringArray("Thumbnails", "ShipThumbnail") instance=ExtResource("5_tefeu")]
 visible = false
@@ -90,7 +89,7 @@ texture = ExtResource("6_85g3d")
 [node name="ParentZoomable" type="Sprite2D" parent="ZoomableB/Background"]
 
 [node name="ThumbnailA" parent="ZoomableB" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(-403, 393.75)
+position = Vector2(-403, 296)
 LinkedZoomable = NodePath("../../ZoomableA")
 metadata/_edit_group_ = true
 
@@ -98,7 +97,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("4_tipki")
 
 [node name="ThumbnailC" parent="ZoomableB" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(586.75, 210.25)
+position = Vector2(354.25, 318.75)
 LinkedZoomable = NodePath("../../ZoomableC")
 metadata/_edit_group_ = true
 
@@ -106,7 +105,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("7_choun")
 
 [node name="ThumbnailD" parent="ZoomableB" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(-147.25, -294.5)
+position = Vector2(-304.75, -531.5)
 LinkedZoomable = NodePath("../../ZoomableD")
 metadata/_edit_group_ = true
 
@@ -132,7 +131,7 @@ texture = ExtResource("7_choun")
 [node name="ParentZoomable" type="Sprite2D" parent="ZoomableC/Background"]
 
 [node name="ThumbnailA" parent="ZoomableC" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(351.5, -363.5)
+position = Vector2(115.5, -333)
 LinkedZoomable = NodePath("../../ZoomableA")
 metadata/_edit_group_ = true
 
@@ -140,7 +139,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("4_tipki")
 
 [node name="ThumbnailB" parent="ZoomableC" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(320.5, 386.25)
+position = Vector2(612.75, 256.75)
 LinkedZoomable = NodePath("../../ZoomableB")
 metadata/_edit_group_ = true
 
@@ -148,7 +147,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("6_85g3d")
 
 [node name="ThumbnailD" parent="ZoomableC" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(-382.75, -140)
+position = Vector2(-649.25, 226.25)
 LinkedZoomable = NodePath("../../ZoomableD")
 metadata/_edit_group_ = true
 
@@ -174,7 +173,7 @@ texture = ExtResource("8_ya4ey")
 [node name="ParentZoomable" type="Sprite2D" parent="ZoomableD/Background"]
 
 [node name="ThumbnailB" parent="ZoomableD" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(-724.25, 18)
+position = Vector2(-576, 137.25)
 LinkedZoomable = NodePath("../../ZoomableB")
 metadata/_edit_group_ = true
 
@@ -182,7 +181,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("6_85g3d")
 
 [node name="ThumbnailC" parent="ZoomableD" node_paths=PackedStringArray("LinkedZoomable") instance=ExtResource("6_o6xl0")]
-position = Vector2(893.75, -292)
+position = Vector2(406.25, -178.25)
 LinkedZoomable = NodePath("../../ZoomableC")
 metadata/_edit_group_ = true
 
@@ -196,3 +195,6 @@ occupier = 2
 [node name="Sprite2D" type="Sprite2D" parent="ZoomableD/ThumbnailEMShip"]
 scale = Vector2(34.77, 34.77)
 texture = SubResource("GradientTexture2D_choun")
+
+[node name="Enemy" type="Node" parent="."]
+script = ExtResource("9_85g3d")
