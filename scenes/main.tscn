@@ -183,3 +183,4 @@ scale = Vector2(34.77, 34.77)
 
 [node name="Enemy" type="Node" parent="."]
 script = ExtResource("9_85g3d")
+TimeBetweenMoves = 10.0

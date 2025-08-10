@@ -23,18 +23,21 @@ public partial class Enemy : Node
 					if (thumbnail.LinkedZoomable.ShipThumbnail.GetOccupier() != Thumbnail.Occupier.ENEMY
 						&& zoomable.ShipThumbnail.GetOccupier() == Thumbnail.Occupier.ENEMY)
 					{
-						zoomable.ConnectThumbnails(zoomable.ShipThumbnail, thumbnail);
+						if (!zoomable.ShipThumbnail.HasTargetThumbnail(thumbnail))
+						{
+							zoomable.ConnectThumbnails(zoomable.ShipThumbnail, thumbnail);
+							goto connection_added;
+						}
 					}
-
 				}
 			}
+			connection_added:
 			_moveTimer = 0.0f;
 		}
 		else
 		{
 			_moveTimer += (float)delta;
 		}
-
 
 	}
 }
