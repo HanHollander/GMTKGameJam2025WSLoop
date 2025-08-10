@@ -8,7 +8,7 @@
 radius = 1024.0
 
 [node name="Thumbnail" type="Area2D"]
-scale = Vector2(0.05, 0.05)
+scale = Vector2(0.1, 0.1)
 script = ExtResource("1_q031a")
 
 [node name="Highlight" type="Sprite2D" parent="."]

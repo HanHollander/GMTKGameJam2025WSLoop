@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
@@ -22,6 +23,7 @@ public partial class Zoomable : Node2D
 	[Export] public Array<Thumbnail> Thumbnails;
 	[Export] public Thumbnail ShipThumbnail;
 	[Export] public bool Enabled { get; set; } = false;
+	[Export] public ShapeType ZoomableShapeType { get; set; }
 
 	[Export] public float ZoomInTime { get; set; } = 1.0f;
 	[Export] public float ZoomOutTime { get; set; } = 1.0f;
@@ -36,6 +38,11 @@ public partial class Zoomable : Node2D
 
 	private Thumbnail selectedThumbnail = null;
 
+	public enum ShapeType
+	{
+		A, B, C, D
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -49,6 +56,8 @@ public partial class Zoomable : Node2D
 			thumbnail.ThumbnailSelectionChanged += OnThumbnailSelectionChanged;
 		}
 		ShipThumbnail.ThumbnailSelectionChanged += OnThumbnailSelectionChanged;
+
+		GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(ShipThumbnail.GetOccupier(), ZoomableShapeType);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
