@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public partial class Connection : Line2D
 {
+	[Export] public float ShiftDistance = 100.0f;
 
 	private static double ANIMATION_DURATION = 2.0;
 
@@ -13,20 +14,42 @@ public partial class Connection : Line2D
 	private bool animate = false;
 	private double animationTime = 0.0;
 
-	public void Init(Thumbnail source, Thumbnail target, bool animate = false)
+	private Vector2 shiftedSource;
+	private Vector2 shiftedTarget;
+
+	public void Init(Thumbnail source, Thumbnail target, bool animate = true)
 	{
 		this.source = source;
 		this.target = target;
 		this.animate = animate;
-		AddPoint(source.Position);
+
+		shiftLine(source.Position, target.Position);
+
+		AddPoint(shiftedSource);
 		if (animate)
 		{
-			AddPoint(source.Position);
+			AddPoint(shiftedSource);
 		}
 		else
 		{
-			AddPoint(target.Position);
+			AddPoint(shiftedTarget);
 		}
+
+		Material = AssetManager.Instance.GetConnectionmaterial(source.GetOccupier(), source.GetThumbnailType());
+	}
+
+	private void shiftLine(Vector2 a, Vector2 b)
+	{
+		shiftedSource = new();
+		shiftedTarget = new();
+
+		float r = a.DistanceTo(b);
+		float dx = (ShiftDistance / r) * (a.Y - b.Y);
+		float dy = (ShiftDistance / r) * (b.X - a.X);
+		shiftedSource.X = a.X + dx;
+		shiftedSource.Y = a.Y + dy;
+		shiftedTarget.X = b.X + dx;
+		shiftedTarget.Y = b.Y + dy;
 	}
 
 	public override void _Input(InputEvent inEvent)
@@ -56,14 +79,14 @@ public partial class Connection : Line2D
 			animationTime += delta;
 			if (animationTime >= ANIMATION_DURATION)
 			{
-				SetPointPosition(1, target.Position);
+				SetPointPosition(1, shiftedTarget);
 				animate = false;
 			}
 			else
 			{
 				double progress = animationTime / ANIMATION_DURATION;
-				float dx = target.Position.X - source.Position.X;
-				float dy = target.Position.Y - source.Position.Y;
+				float dx = shiftedTarget.X - shiftedSource.X;
+				float dy = shiftedTarget.Y - shiftedSource.Y;
 				SetPointPosition(1, new Vector2((float)(dx * progress), (float)(dy * progress)));
 			}
 		}

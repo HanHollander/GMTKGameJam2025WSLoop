@@ -148,7 +148,7 @@ public partial class Zoomable : Node2D
 			// Update the ParentZoomableSprite of the linked Zoomable (nearest Thumbnail)
 			Sprite2D parentZoomableSprite = _nearestThumbnail.LinkedZoomable.GetNode<Sprite2D>("Background").GetNode<Sprite2D>("ParentZoomable");
 			parentZoomableSprite.Texture = (Texture2D)GetNode<Sprite2D>("Background").Texture;
-			parentZoomableSprite.ZIndex = -1;
+			parentZoomableSprite.ZIndex = -20;
 
 			float bgScale = 1 / _nearestThumbnail.Scale.X;
 			parentZoomableSprite.Scale = new Vector2(bgScale, bgScale);
@@ -198,7 +198,7 @@ public partial class Zoomable : Node2D
 			{
 				Zoomable parentZoomableParentZoomable = ZoomStack.Instance.ZoomableStack.Peek();
 				parentZoomableSprite.Texture = parentZoomableParentZoomable.GetNode<Sprite2D>("Background").Texture;
-				parentZoomableSprite.ZIndex = -1;
+				parentZoomableSprite.ZIndex = -20;
 
 				foreach (Thumbnail thumbnail in parentZoomableParentZoomable.Thumbnails)
 				{
@@ -265,7 +265,7 @@ public partial class Zoomable : Node2D
 		return result;
 	}
 
-	private void ConnectThumbnails(Thumbnail ship, Thumbnail node)
+	public void ConnectThumbnails(Thumbnail ship, Thumbnail node)
 	{
 		if (!ship.HasTargetThumbnail(node))
 		{

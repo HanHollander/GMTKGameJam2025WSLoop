@@ -30,7 +30,8 @@ public partial class AssetManager : ResourcePreloader
 
 	private static Dictionary<Thumbnail.Occupier, Dictionary<Zoomable.ShapeType, String>> spriteLookup = new()
 	{
-		{   Thumbnail.Occupier.PLAYER,
+		{  
+			Thumbnail.Occupier.PLAYER,
 			new()
 			{
 				{ Zoomable.ShapeType.A, "so-a-b"},
@@ -60,6 +61,28 @@ public partial class AssetManager : ResourcePreloader
 		
 	};
 
+	private static Dictionary<Thumbnail.Occupier, Dictionary<Thumbnail.ThumbnailType, String>> materialLookup = new()
+	{
+		{
+			Thumbnail.Occupier.PLAYER,
+			new()
+			{
+				{ Thumbnail.ThumbnailType.NORMAL, "conn-material-p-l"},
+				{ Thumbnail.ThumbnailType.MOTHER_SHIP, "conn-material-p"},
+				{ Thumbnail.ThumbnailType.SHIP, "conn-material-p"},
+			}
+		},
+		{
+			Thumbnail.Occupier.ENEMY,
+			new()
+			{
+				{ Thumbnail.ThumbnailType.NORMAL, "conn-material-e-l"},
+				{ Thumbnail.ThumbnailType.MOTHER_SHIP, "conn-material-e"},
+				{ Thumbnail.ThumbnailType.SHIP, "conn-material-e"},
+			}
+		},
+	};
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -87,11 +110,21 @@ public partial class AssetManager : ResourcePreloader
 		AddResource("so-b-n", GD.Load<CompressedTexture2D>("res://sprites/space_obj/SpaceObjectB-N.png"));
 		AddResource("so-c-n", GD.Load<CompressedTexture2D>("res://sprites/space_obj/SpaceObjectC-N.png"));
 		AddResource("so-d-n", GD.Load<CompressedTexture2D>("res://sprites/space_obj/SpaceObjectD-N.png"));
+
+		AddResource("conn-material-p", GD.Load<ShaderMaterial>("res://materials/connection_player.tres"));
+		AddResource("conn-material-p-l", GD.Load<ShaderMaterial>("res://materials/connection_player_light.tres"));
+		AddResource("conn-material-e", GD.Load<ShaderMaterial>("res://materials/connection_enemy.tres"));
+		AddResource("conn-material-e-l", GD.Load<ShaderMaterial>("res://materials/connection_enemy_light.tres"));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+
+	public ShaderMaterial GetConnectionmaterial(Thumbnail.Occupier occupier, Thumbnail.ThumbnailType type)
+	{
+		return (ShaderMaterial)GetResource(materialLookup[occupier][type]);
 	}
 
 	public PackedScene GetConnectionScene()

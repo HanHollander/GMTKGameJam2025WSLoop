@@ -1,17 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://wiwoukbbcq63"]
+[gd_scene load_steps=3 format=3 uid="uid://wiwoukbbcq63"]
 
-[ext_resource type="Shader" uid="uid://tsdfuq5ntqle" path="res://shaders/connection.gdshader" id="1_68o8k"]
-[ext_resource type="Texture2D" uid="uid://c7boevru0k3vf" path="res://sprites/line.png" id="1_nm06n"]
+[ext_resource type="Texture2D" uid="uid://df2fvowvuegjh" path="res://sprites/line2.png" id="1_nm06n"]
 [ext_resource type="Script" uid="uid://bjku64bi4ks1r" path="res://scripts/Connection.cs" id="1_u7hla"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ke00m"]
-shader = ExtResource("1_68o8k")
-shader_parameter/scrolling_speed = 2.5
 
 [node name="Connection" type="Line2D"]
 texture_repeat = 2
-material = SubResource("ShaderMaterial_ke00m")
-width = 30.0
+width = 20.0
 texture = ExtResource("1_nm06n")
 texture_mode = 1
 script = ExtResource("1_u7hla")
+ShiftDistance = 10.0

@@ -8,10 +8,12 @@
 radius = 1024.0
 
 [node name="Thumbnail" type="Area2D"]
+z_index = 20
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_q031a")
 
 [node name="Highlight" type="Sprite2D" parent="."]
+z_index = 15
 scale = Vector2(7.38, 7.38)
 texture = ExtResource("3_akuhd")
 
@@ -19,6 +21,7 @@ texture = ExtResource("3_akuhd")
 shape = SubResource("CircleShape2D_837jk")
 
 [node name="Troops" type="Label" parent="."]
+z_index = 25
 offset_left = 460.0
 offset_top = -1460.0
 offset_right = 860.0
