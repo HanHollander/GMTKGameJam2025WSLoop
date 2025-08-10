@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5uoar63yn8bt"]
+[gd_scene load_steps=7 format=3 uid="uid://b5uoar63yn8bt"]
 
 [ext_resource type="Script" uid="uid://b0y1whditrhap" path="res://scripts/Thumbnail.cs" id="1_q031a"]
 [ext_resource type="Texture2D" uid="uid://cufljd51i1twc" path="res://sprites/highlight2.png" id="2_paav1"]
-[ext_resource type="LabelSettings" uid="uid://b70fgw14nmle0" path="res://labels/troops-label-neutral.tres" id="3_paav1"]
+[ext_resource type="FontFile" uid="uid://ucahjgru54j6" path="res://labels/SPACE.ttf" id="3_akuhd"]
 [ext_resource type="Texture2D" uid="uid://di5ppfk2w1itu" path="res://sprites/troops_label.png" id="4_akuhd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_837jk"]
 radius = 1024.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_837jk"]
+font = ExtResource("3_akuhd")
+font_size = 600
 
 [node name="Thumbnail" type="Area2D"]
 z_index = 20
@@ -30,7 +34,7 @@ offset_top = -1410.0
 offset_right = 870.0
 offset_bottom = -455.0
 text = "0"
-label_settings = ExtResource("3_paav1")
+label_settings = SubResource("LabelSettings_837jk")
 
 [node name="Ship" type="Sprite2D" parent="."]
 scale = Vector2(9, 9)
