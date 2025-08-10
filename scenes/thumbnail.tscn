@@ -29,3 +29,6 @@ offset_right = 860.0
 offset_bottom = -505.0
 text = "0"
 label_settings = ExtResource("3_paav1")
+
+[node name="Ship" type="Sprite2D" parent="."]
+scale = Vector2(9, 9)

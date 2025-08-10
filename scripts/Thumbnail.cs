@@ -44,12 +44,7 @@ public partial class Thumbnail : Area2D
 	{
 		troops = BASE_TROOPS;
 		UpdateSelectionState(false);
-		UpdateTroopLabel();
-
-		if (thumbnailType == ThumbnailType.NORMAL)
-		{
-			GetNode<Sprite2D>("Background").Texture = AssetManager.Instance.GetZoomableTexture(occupier, LinkedZoomable.ZoomableShapeType);
-		}
+		UpdateGraphics();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,8 +70,9 @@ public partial class Thumbnail : Area2D
 				attackTimer -= ATTACK_INTERVAL;
 			}
 		}
-		UpdateTroopLabel();
+		
 		UpdateHighlightRotation(delta);
+		UpdateGraphics();
 	}
 
 	private void DoAttack()
@@ -136,7 +132,7 @@ public partial class Thumbnail : Area2D
 		}
 	}
 
-	public void UpdateTroopLabel()
+	public void UpdateGraphics()
 	{
 		Label label = GetNode<Label>("Troops");
 		label.Text = troops.ToString();
@@ -145,6 +141,10 @@ public partial class Thumbnail : Area2D
 		if (thumbnailType == ThumbnailType.NORMAL)
 		{
 			SetBackgrounds();
+		}
+		else
+		{
+			GetNode<Sprite2D>("Ship").Texture = AssetManager.Instance.GetShipTexture(thumbnailType, occupier);
 		}
 	}
 
